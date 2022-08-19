@@ -5,7 +5,7 @@
 { config, pkgs, ... }:
 
 let
-  unstablePkgs = import /home/unnamed/.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
+  unstablePkgs = import <nixos-unstable> { config.allowUnfree = true; };
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -14,20 +14,33 @@ in {
       ./sway-configuration.nix
     ];
 
-  # Configure keymap in X11
+  # Set your hostname.
+  networking.hostName = "nixos";
+
+  # Set your time zone.
+  time.timeZone = "Europe/Vienna";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.utf8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "de_AT.utf8";
+    LC_IDENTIFICATION = "de_AT.utf8";
+    LC_MEASUREMENT = "de_AT.utf8";
+    LC_MONETARY = "de_AT.utf8";
+    LC_NAME = "de_AT.utf8";
+    LC_NUMERIC = "de_AT.utf8";
+    LC_PAPER = "de_AT.utf8";
+    LC_TELEPHONE = "de_AT.utf8";
+    LC_TIME = "de_AT.utf8";
+  };
+
+  # Configure keymap in X11.
   services.xserver = {
     enable = true;
     libinput.enable = true;
     layout = "us";
-    displayManager.sddm = {
-      enable = true;
-      #theme = "${(pkgs.fetchFromGitHub {
-      #  owner = "MarianArlt";
-      #  repo = "kde-plasma-chili";
-      #  rev = "a371123959676f608f01421398f7400a2f01ae06";
-      #  sha256 = "17pkxpk4lfgm14yfwg6rw6zrkdpxilzv90s48s2hsicgl3vmyr3x";
-      #})}";
-    };
+    displayManager.sddm.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -35,87 +48,78 @@ in {
     isNormalUser = true;
     description = "Unnamed";
     extraGroups = [ "networkmanager" "video" "wheel" ];
-    packages = with pkgs; [];
   };
 
   # Enable automatic login for the user.
   services.getty.autologinUser = "unnamed";
 
-  # Allow unfree packages
+  # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
 
-  # Enable flatpak
+  # Enable flatpak.
   services.flatpak.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    element-desktop
-    unstablePkgs.discord
-    google-chrome
-    spotify
-    firefox-wayland
-    vscode
-    keepassxc
-    teamspeak_client
-    pavucontrol
-    wget
-    waybar
-    killall
-    nix-prefetch-git
-    htop
-    ranger
-    # insomnia # doesn't work
-    steam-run
-    gimp
-    mpv
-    git
-    direnv
-    veracrypt
-    jetbrains.webstorm
-    gnupg
-    file
     appimage-run
+    direnv
+    element-desktop
+    file
+    firefox-wayland
+    gimp
+    git
+    gnupg
+    google-chrome
+    jetbrains.webstorm
+    keepassxc
+    mpv
+    nix-prefetch-git
     p7zip
-    pinentry-qt
-    playerctl
+    spotify
+    steam-run
+    teamspeak_client
     tor-browser-bundle-bin
     trackma-qt
+    unstablePkgs.discord
+    veracrypt
+    vscode
+    wget
   ];
 
+  # List fonts installed in system profile.
   fonts.fonts = with pkgs; [
-    font-awesome
     fira-code
     fira-code-symbols
+    font-awesome
     twemoji-color-font
   ];
 
-  services.pcscd.enable = true;
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
 
+  # Enable GPG daemon.
   programs.gnupg.agent = {
     enable = true;
     pinentryFlavor = "gtk2";
     enableSSHSupport = true;
   };
 
+  # Install steam.
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   # List services that you want to enable:
 
+  # Enable smartcard daemon.
+  services.pcscd.enable = true;
+
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

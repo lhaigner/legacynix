@@ -38,8 +38,6 @@ let
         gsettings set $gnome_schema gtk-theme 'Dracula'
         '';
   };
-
-
 in
 {
   environment.systemPackages = with pkgs; [
@@ -58,6 +56,11 @@ in
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     bemenu # wayland clone of dmenu
     mako # notification system developed by swaywm maintainer
+    waybar
+    ranger
+    playerctl
+    pinentry-qt
+    pavucontrol
   ];
 
   services.pipewire = {
