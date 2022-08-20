@@ -73,6 +73,7 @@ in {
     google-chrome
     jetbrains.webstorm
     keepassxc
+    killall
     mpv
     nix-prefetch-git
     p7zip
