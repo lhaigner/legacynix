@@ -59,7 +59,7 @@ in
     waybar
     ranger
     playerctl
-    pinentry-qt
+    pinentry-gtk2
     pavucontrol
   ];
 
