@@ -38,6 +38,13 @@ let
         gsettings set $gnome_schema gtk-theme 'Dracula'
         '';
   };
+
+  dracula = pkgs.fetchFromGitHub {
+    owner = "dracula";
+    repo = "gtk";
+    rev = "162888214d7de6d21603f5f7ec4bec60895ae3c1";
+    sha256 = "16kckamgk1d47lim3dv7ksvgm69nvbbhpjydyj8vyxxrcpzaxdyr";
+  };
 in
 {
   environment.systemPackages = with pkgs; [
@@ -61,15 +68,20 @@ in
     playerctl
     pinentry-gtk2
     pavucontrol
+    libsForQt5.qtstyleplugin-kvantum
   ];
+
+  environment.variables = {
+    QT_STYLE_OVERRIDE = "kvantum";
+  };
+
+  programs.light.enable = true;
 
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
   };
-
-  programs.light.enable = true;
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
