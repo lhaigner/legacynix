@@ -81,7 +81,7 @@ in {
     steam-run
     teamspeak_client
     tor-browser-bundle-bin
-    trackma-qt
+    trackma-gtk
     unstablePkgs.discord
     veracrypt
     vscode
