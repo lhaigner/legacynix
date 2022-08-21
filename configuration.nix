@@ -110,6 +110,9 @@ in {
     enableSSHSupport = true;
   };
 
+  # Enable dconf.
+  programs.dconf.enable = true;
+
   # Install steam.
   programs.steam = {
     enable = true;
