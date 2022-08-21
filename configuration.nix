@@ -84,8 +84,8 @@ in {
     trackma-gtk
     (discord.override { nss = nss_latest; })
     veracrypt
-    vscode
     virt-manager
+    unstablePkgs.vscode
     wget
   ];
 
