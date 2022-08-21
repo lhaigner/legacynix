@@ -47,7 +47,7 @@ in {
   users.users.unnamed = {
     isNormalUser = true;
     description = "Unnamed";
-    extraGroups = [ "networkmanager" "video" "wheel" ];
+    extraGroups = [ "libvirtd" "networkmanager" "video" "wheel" ];
   };
 
   # Enable automatic login for the user.
@@ -85,6 +85,7 @@ in {
     (discord.override { nss = nss_latest; })
     veracrypt
     vscode
+    virt-manager
     wget
   ];
 
@@ -95,6 +96,8 @@ in {
     font-awesome
     twemoji-color-font
   ];
+
+  virtualisation.libvirtd.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
