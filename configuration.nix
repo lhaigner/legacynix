@@ -82,7 +82,7 @@ in {
     teamspeak_client
     tor-browser-bundle-bin
     trackma-gtk
-    unstablePkgs.discord
+    (discord.override { nss = nss_latest; })
     veracrypt
     vscode
     wget
